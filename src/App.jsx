@@ -3,7 +3,9 @@ import TextareaAutosize from '@mui/material/TextareaAutosize';
 import { useState } from 'react';
 
 
+
 import Todos from './components/Todos';
+import CreateTodo from './components/CreateTodo';
 
 import './App.scss';
 
@@ -24,18 +26,14 @@ const todoListInitialState = [
 
 function App() {
 
-
-
-  // const addTodo = (task) => {
-  //   console.log('tarea a;adida'+task);
-  //   setTodos([...todos, task]);
-  //   console.log(todos);
-  // }
-
+  const [ todoList, setTodoList ] = useState(todoListInitialState);
 
 
   return (
-    <Todos todoListInitialState={todoListInitialState}/>
+    <div>
+      <CreateTodo setTodoList={setTodoList} todoList={todoList}/>
+      <Todos todoList={todoList}/>
+    </div>
   );
 }
 
