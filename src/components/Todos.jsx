@@ -1,5 +1,5 @@
 
-const Todos = ({todoList}) => {
+const Todos = ({todoList, onToggle}) => {
 
     return(
         <>
@@ -9,6 +9,12 @@ const Todos = ({todoList}) => {
                     task: {e.todo}
                     <span> {e.priority}</span>
                     {/* <span> {e.id}</span> */}
+                    <div>
+                        <label>
+                            <input type="checkbox" checked={e.toggled} onChange={() => onToggle(e.id)}/>
+                            Hecho
+                        </label>
+                    </div>
                     </li>
                 ))} 
             </div>

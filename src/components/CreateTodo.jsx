@@ -2,7 +2,7 @@ import { useState } from "react";
 import { v4 as uuid } from 'uuid';
 
 
-const CreateTodo = ({setTodoList, todoList}) => {
+const CreateTodo = ({setTodoList, todoList, toggled}) => {
     const [ todo, setTodo ] = useState('');
     const [ priority, setPriority ] = useState('5');
   
@@ -12,7 +12,10 @@ const CreateTodo = ({setTodoList, todoList}) => {
         id: uuid(),
         todo: todo,
         priority: priority,
+        toggled: toggled,
       }]);
+      setTodo('');
+      setPriority('5');
     }
 
     return(
@@ -34,7 +37,7 @@ const CreateTodo = ({setTodoList, todoList}) => {
                     type="text"
                     placeholder="task to do"
                     name="todo"
-                    value={todo.todo}
+                    value={todo}
                     onChange={e => setTodo(e.target.value)}
                 />
                 </label>
@@ -44,8 +47,8 @@ const CreateTodo = ({setTodoList, todoList}) => {
                 Prioridad:
                 <select   
                     name="priority"
-                    value={todo.priority}
-                    defaultValue={'5'}
+                    value={priority}
+                    // defaultValue={'5'}
                     onChange={e => setPriority(e.target.value)}
                 >
                     <option value="1">1</option>
