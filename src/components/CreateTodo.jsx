@@ -2,18 +2,13 @@ import { useState } from "react";
 import { v4 as uuid } from 'uuid';
 
 
-const CreateTodo = ({setTodoList, todoList, toggled}) => {
+const CreateTodo = ({onSubmit, todoList, toggled}) => {
     const [ todo, setTodo ] = useState('');
     const [ priority, setPriority ] = useState('5');
   
     const handleFormSubmit = ev => {
       ev.preventDefault();
-      setTodoList([...todoList, {
-        id: uuid(),
-        todo: todo,
-        priority: priority,
-        toggled: toggled,
-      }]);
+        onSubmit({todo,priority})
       setTodo('');
       setPriority('5');
     }
