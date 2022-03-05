@@ -1,9 +1,11 @@
+const viewTodoListLength = state => state.length;
 
 const Todos = ({todoList, onToggle}) => {
 
     return(
         <>
             <div>        
+            <h1>Todo List {viewTodoListLength(todoList)}</h1>
                 {todoList.map(e => (
                     <li key={e.id}>
                     task: {e.todo}

@@ -32,12 +32,29 @@ const todoListInitialState = [
 //   priority:'',
 // }
  
-const ADD_TODO = 'ADD_TODO';
 
-const reducer = (todos = todoListInitialState(), action={}) => {
+const AddTodo = id => ({ 
+  type: 'ADD_TODO',
+  payload: id,
+});
+const ToggleTodo = todo => ({ 
+  type: 'TOGGLE_TODO',
+  payload: todo,
+});
+
+const updateTodoToggles = (todos, { payload }={}) => todos.map(todo => {
+  if (todo.id === payload) {
+    return { ...todo, toggled : !todo.toggled }
+  }
+  return todo;
+});
+
+const reducer = (todos = todoListInitialState, action={}) => {
   switch(action.type){
-    case ADD_TODO:
-        return [action.payload, ...todos]
+    case AddTodo().type:
+        return [Object.assign({},{ ...action.payload }, { id: uuid(), toggled: false }) , ...todos];
+    case ToggleTodo().type:
+        return updateTodoToggles(todos,action);
     default: 
       return todos;
   }
@@ -50,31 +67,8 @@ function App() {
   const [ todos, dispatch ] = useReducer(reducer, reducer());
 
 
-  const toggleTodo = id => {
-    
-    // const newTodos = todoList.map(todo => {
-    //   switch(todo.id){
-    //     case id: 
-    //       return { ...todo, toggled: !todo.toggled };
-    //     default:
-    //       return todo;
-    //   }
-    // });
-
-    // setTodoList(newTodos);
-  }
-
-  const addTodo = todo => {
-    Object.assign(todo,{
-      id: uuid(),
-      toggled: false
-    });
-
-    dispatch({
-      type: ADD_TODO,
-      payload: todo,
-    });
-  }
+  const toggleTodo = id => dispatch(ToggleTodo(id));
+  const addTodo = todo => dispatch(AddTodo(todo));
 
 
   return (
@@ -82,7 +76,7 @@ function App() {
       {/* <CreateTodo setTodoList={setTodoList} todoList={todoList} toggled={toggled}/> */}
       <CreateTodo onSubmit={addTodo}/>
       {/* <Todos todoList={todoList} onToggle={toggleTodo}/> */}
-      <Todos/>
+      <Todos todoList={todos} onToggle={toggleTodo}/>
     </div>
   );
 }
